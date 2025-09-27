@@ -2,6 +2,7 @@ import streamlit as st
 
 st.title("Login Page 1")
 st.title("Login Page 2")
+
 # Define valid usernames and passwords
 VALID_USERS = {
     'admin': 'admin123',
@@ -9,32 +10,32 @@ VALID_USERS = {
     'user2': 'password2',
 }
 
-
 def login():
     """Handles user login logic."""
-    st.title("Login Page 1")
-
     # Initialize session state variables if they don't exist
     if 'logged_in' not in st.session_state:
         st.session_state.logged_in = False
     if 'username' not in st.session_state:
         st.session_state.username = None
 
-    # Username and password input fields
-    username = st.text_input("Username", key="username_input")
-    password = st.text_input("Password", type="password", key="password_input")
+    # Display login form if the user is not logged in
+    if not st.session_state.logged_in:
+        username = st.text_input("Username", key="username_input")
+        password = st.text_input("Password", type="password", key="password_input")
 
-    # If the login button is clicked
-    if st.button("Login"):
-        # Check if the username and password are valid
-        if username in VALID_USERS and VALID_USERS[username] == password:
-            # Successful login: Set session state variables
-            st.session_state.logged_in = True
-            st.session_state.username = username
-            st.rerun()  # Rerun the script to show content after login
-        else:
-            st.error("Invalid username or password")
-
+        if st.button("Login"):
+            # Check if the username and password are valid
+            if username in VALID_USERS and VALID_USERS[username] == password:
+                # Successful login: Set session state variables
+                st.session_state.logged_in = True
+                st.session_state.username = username
+                st.experimental_rerun()  # Rerun the script to show content after login
+            else:
+                st.error("Invalid username or password")
+    else:
+        # If the user is already logged in, show personalized content
+        st.write(f"Hello, {st.session_state.username}! You are logged in.")
+        display_content()
 
 def display_content():
     """Displays content based on the logged-in user."""
@@ -56,14 +57,12 @@ def display_content():
     else:
         st.write("Welcome, please log in to see the content.")
 
-
 def logout():
     """Handles user logout logic."""
     if st.session_state.get("logged_in", False):
         st.session_state.logged_in = False
         st.session_state.username = None
-        st.rerun()  # Rerun the script to show the login form after logout
-
+        st.experimental_rerun()  # Rerun the script to show the login form after logout
 
 def main():
     # If the user is not logged in, show the login form
@@ -76,11 +75,5 @@ def main():
         if logout_button:
             logout()
 
-
 if __name__ == "__main__":
-
     main()
-
-
-
-
