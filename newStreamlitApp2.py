@@ -2,8 +2,8 @@ import streamlit as st
 
 # Define valid usernames and passwords
 VALID_USERS = {
-    'admin': 'admin123',  # Admin username and password
-    'user': 'user123'     # Regular user username and password
+    'admin': 'admin123',
+    'user': 'user123'
 }
 
 def login():
@@ -11,16 +11,16 @@ def login():
     st.title("Login Page")
 
     # Username and password input fields
-    username = st.text_input("Username")
-    password = st.text_input("Password", type="password")
+    username = st.text_input("Username", key="username_input")
+    password = st.text_input("Password", type="password", key="password_input")
 
     # If the login button is clicked
     if st.button("Login"):
         # Check if the username and password are valid
         if username in VALID_USERS and VALID_USERS[username] == password:
+            # Set session state variables
             st.session_state.logged_in = True
             st.session_state.username = username
-            st.experimental_rerun()  # Rerun to show personalized page after login
         else:
             st.error("Invalid username or password")
 
@@ -47,7 +47,6 @@ def logout():
     if st.session_state.get("logged_in", False):
         st.session_state.logged_in = False
         st.session_state.username = None
-        st.experimental_rerun()  # Rerun to show the login page after logout
 
 def main():
     # Initialize session state variables if they don't exist
