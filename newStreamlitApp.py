@@ -1,6 +1,7 @@
 import streamlit as st
 
-
+st.title("Login Page 1")
+st.title("Login Page 2")
 # Define valid usernames and passwords
 VALID_USERS = {
     'admin': 'admin123',
@@ -79,6 +80,7 @@ def main():
 if __name__ == "__main__":
 
     main()
+
 
 
 
